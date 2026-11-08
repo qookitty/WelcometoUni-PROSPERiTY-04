@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台南新營萬家福美食指南</title>
+
+<style>
+  :root{
+    --font-scale:1;
+    --pink:#ff8fab;
+    --pink-light:#ffe3ec;
+    --cream:#fff8f2;
+    --brown:#7a5c48;
+    --brown-dark:#5b4436;
+    --green:#8bc34a;
+    --blue:#7ec8e3;
+    --yellow:#ffd166;
+    --card:#ffffff;
+    --shadow:0 8px 24px rgba(122,92,72,.12);
+  }
+
+  *{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  html{
+    font-size:calc(16px * var(--font-scale));
+  }
+
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:
+      radial-gradient(circle at 10% 10%, #ffe9f0 0, transparent 45%),
+      radial-gradient(circle at 90% 20%, #e6f7ff 0, transparent 45%),
+      var(--cream);
+    color:var(--brown-dark);
+    line-height:1.55;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:18px 16px 40px;
+  }
+
+  header{
+    text-align:center;
+    background:linear-gradient(135deg,#ffd6e0,#fff1c9 55%,#d9f2ff);
+    border-radius:26px;
+    padding:26px 18px 22px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  header::before,
+  header::after{
+    content:"🍜";
+    position:absolute;
+    font-size:34px;
+    opacity:.28;
+  }
+
+  header::before{left:16px;top:16px;transform:rotate(-12deg);}
+  header::after{right:18px;bottom:14px;transform:rotate(14deg);}
+
+  .badge{
+    display:inline-block;
+    background:#fff;
+    color:var(--brown);
+    font-size:.75rem;
+    font-weight:700;
+    padding:.31rem .75rem;
+    border-radius:999px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    margin-bottom:.63rem;
+  }
+
+  h1{
+    margin:.25rem 0 .5rem;
+    font-size:clamp(1.56rem,3.25vw,2.38rem);
+    color:var(--brown-dark);
+    letter-spacing:.5px;
+  }
+
+  .subtitle{
+    margin:0;
+    color:#7a6152;
+    font-size:clamp(.81rem,2vw,1rem);
+  }
+
+  .info-row{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:.5rem;
+    margin-top:.88rem;
+  }
+
+  .info-chip{
+    background:rgba(255,255,255,.82);
+    border-radius:999px;
+    padding:.44rem .81rem;
+    font-size:.78rem;
+    font-weight:600;
+    color:var(--brown-dark);
+    box-shadow:0 3px 8px rgba(0,0,0,.06);
+  }
+
+  .font-control{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    margin-top:.88rem;
+    flex-wrap:wrap;
+  }
+
+  .font-btn{
+    border:0;
+    background:#fff;
+    color:var(--brown-dark);
+    font-weight:900;
+    font-size:.9rem;
+    border-radius:999px;
+    padding:.5rem .9rem;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,.08);
+    transition:.15s;
+  }
+
+  .font-btn:hover{
+    transform:translateY(-2px);
+  }
+
+  .font-label{
+    background:rgba(255,255,255,.85);
+    color:var(--brown-dark);
+    font-weight:800;
+    font-size:.78rem;
+    border-radius:999px;
+    padding:.44rem .81rem;
+    box-shadow:0 3px 8px rgba(0,0,0,.06);
+  }
+
+  .quick{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:.63rem;
+    margin-bottom:1rem;
+  }
+
+  .quick button{
+    border:0;
+    border-radius:18px;
+    padding:.88rem .63rem;
+    font-weight:800;
+    font-size:.88rem;
+    color:#fff;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .15s ease, filter .15s ease;
+  }
+
+  .quick button:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.04);
+  }
+
+  .quick .family{background:linear-gradient(135deg,#ff8fab,#ff6b8b);}
+  .quick .fast{background:linear-gradient(135deg,#7ec8e3,#4aa8d8);}
+  .quick .date{background:linear-gradient(135deg,#c3a1ff,#9b7bff);}
+  .quick .heavy{background:linear-gradient(135deg,#ffb26b,#ff8a4c);}
+
+  .filters{
+    background:var(--card);
+    border-radius:22px;
+    padding:1rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1rem;
+  }
+
+  .filter-title{
+    font-weight:800;
+    margin:0 0 .63rem;
+    font-size:.94rem;
+    display:flex;
+    align-items:center;
+    gap:.44rem;
+  }
+
+  .search-input{
+    width:100%;
+    border:2px solid #f1dcd0;
+    border-radius:999px;
+    padding:.81rem 1.13rem;
+    font-size:.94rem;
+    font-family:inherit;
+    color:var(--brown-dark);
+    background:#fff;
+    outline:none;
+    transition:.15s;
+  }
+
+  .search-input:focus{
+    border-color:var(--pink);
+    box-shadow:0 0 0 4px rgba(255,143,171,.18);
+  }
+
+  .search-input::placeholder{color:#b39a8b;}
+
+  .chip-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+
+  .chip{
+    border:2px solid #f1dcd0;
+    background:#fff;
+    color:var(--brown-dark);
+    border-radius:999px;
+    padding:.5rem .81rem;
+    font-size:.81rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:.15s;
+  }
+
+  .chip:hover{border-color:var(--pink);}
+
+  .chip.active{
+    background:var(--pink);
+    border-color:var(--pink);
+    color:#fff;
+    box-shadow:0 4px 12px rgba(255,143,171,.35);
+  }
+
+  .result-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:.63rem;
+    margin:1.13rem .13rem .63rem;
+    font-size:.84rem;
+    font-weight:700;
+    color:var(--brown);
+  }
+
+  .clear-btn{
+    border:0;
+    background:#fff;
+    color:var(--brown);
+    font-weight:800;
+    border-radius:999px;
+    padding:.44rem .81rem;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,.08);
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(18.13rem,1fr));
+    gap:.88rem;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:22px;
+    padding:1rem;
+    box-shadow:var(--shadow);
+    border:2px solid transparent;
+    transition:.18s;
+    position:relative;
+  }
+
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--pink-light);
+  }
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:.63rem;
+  }
+
+  .floor{
+    flex:0 0 auto;
+    background:var(--pink-light);
+    color:var(--brown);
+    font-size:.75rem;
+    font-weight:900;
+    padding:.38rem .63rem;
+    border-radius:999px;
+  }
+
+  .heart{
+    border:0;
+    background:#fff0f5;
+    color:#ff5c8a;
+    width:2.38rem;
+    height:2.38rem;
+    border-radius:50%;
+    font-size:1.13rem;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,.07);
+    transition:.15s;
+  }
+
+  .heart.saved{
+    background:#ff5c8a;
+    color:#fff;
+  }
+
+  h2{
+    margin:.63rem 0 .38rem;
+    font-size:1.19rem;
+    color:var(--brown-dark);
+  }
+
+  .rating{
+    display:flex;
+    align-items:center;
+    gap:.38rem;
+    margin:0 0 .63rem;
+    font-size:.84rem;
+    font-weight:800;
+    color:#a8763a;
+  }
+
+  .stars{
+    color:#ffb703;
+    letter-spacing:1px;
+    font-size:.94rem;
+  }
+
+  .review-count{
+    font-size:.75rem;
+    font-weight:600;
+    color:#8a7161;
+  }
+
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.38rem;
+    margin-bottom:.63rem;
+  }
+
+  .tag{
+    font-size:.72rem;
+    font-weight:700;
+    border-radius:999px;
+    padding:.25rem .56rem;
+    background:#f7f2ec;
+    color:var(--brown);
+  }
+
+  .desc{
+    font-size:.88rem;
+    color:#6d584c;
+    margin:0 0 .63rem;
+  }
+
+  .more{
+    overflow:hidden;
+    max-height:0;
+    transition:max-height .25s ease;
+  }
+
+  .card.open .more{max-height:1200px;}
+
+  .more-box{
+    background:#fff8f2;
+    border-radius:16px;
+    padding:.75rem;
+    margin-top:.5rem;
+    font-size:.84rem;
+  }
+
+  .more-box b{color:var(--brown-dark);}
+
+  .social-title{
+    margin:.63rem 0 .44rem;
+    font-weight:800;
+    font-size:.81rem;
+    color:var(--brown-dark);
+  }
+
+  .social-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.44rem;
+  }
+
+  .social-link{
+    display:inline-flex;
+    align-items:center;
+    gap:.31rem;
+    border-radius:999px;
+    padding:.44rem .69rem;
+    font-size:.75rem;
+    font-weight:800;
+    text-decoration:none;
+    color:#fff;
+    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    transition:.15s;
+  }
+
+  .social-link:hover{transform:translateY(-2px);}
+
+  .social-link.website{background:#7a5c48;}
+  .social-link.facebook{background:#1877f2;}
+  .social-link.instagram{background:linear-gradient(135deg,#f9ce34,#ee2a7b 55%,#6228d7);}
+  .social-link.none{background:#cfc4bc;cursor:not-allowed;}
+
+  .card-actions{
+    display:flex;
+    gap:.5rem;
+    margin-top:.75rem;
+    flex-wrap:wrap;
+  }
+
+  .btn{
+    flex:1;
+    min-width:6.56rem;
+    text-align:center;
+    border:0;
+    border-radius:999px;
+    padding:.63rem .75rem;
+    font-weight:800;
+    font-size:.81rem;
+    cursor:pointer;
+    text-decoration:none;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.10);
+    transition:.15s;
+  }
+
+  .btn:hover{transform:translateY(-2px);}
+
+  .btn-detail{background:var(--brown);}
+  .btn-map{background:#4aa8d8;}
+  .btn-phone{background:var(--green);}
+
+  .empty{
+    text-align:center;
+    background:#fff;
+    border-radius:22px;
+    padding:2.25rem 1.13rem;
+    box-shadow:var(--shadow);
+    color:#8a7161;
+  }
+
+  .empty span{
+    font-size:2.5rem;
+    display:block;
+    margin-bottom:.5rem;
+  }
+
+  footer{
+    margin-top:1.5rem;
+    text-align:center;
+    color:#8a7161;
+    font-size:.78rem;
+    background:#fff;
+    border-radius:18px;
+    padding:.88rem;
+    box-shadow:var(--shadow);
+  }
+
+  footer b{color:var(--brown-dark);}
+
+  @media(min-width:700px){
+    .quick{grid-template-columns:repeat(4,1fr);}
+    .wrap{padding:1.63rem 1.38rem 3.13rem;}
+    .card{padding:1.13rem;}
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="badge">台南新營 · 萬家福美食地圖</span>
+    <h1>新營萬家福吃什麼？</h1>
+    <p class="subtitle">溫馨可愛的一頁式美食指南：樓層、特色、風格與官方資訊一次看</p>
+
+    <div class="info-row">
+      <span class="info-chip">📍 台南市新營區健康路 251 號</span>
+      <span class="info-chip">🍽️ 餐飲店家約 9 家</span>
+      <span class="info-chip">🅿️ 商場附設停車場</span>
+    </div>
+
+    <div class="font-control">
+      <button class="font-btn" onclick="changeFont(-0.1)">🔍➖ 縮小字體</button>
+      <span class="font-label" id="fontLabel">字體大小：100%</span>
+      <button class="font-btn" onclick="changeFont(0.1)">🔍➕ 放大字體</button>
+      <button class="font-btn" onclick="resetFont()">↩️ 恢復預設</button>
+    </div>
+  </header>
+
+  <section class="quick">
+    <button class="family" onclick="applyScene('family')">👨‍👩‍👧 家庭聚餐</button>
+    <button class="fast" onclick="applyScene('fast')">⚡ 快速用餐</button>
+    <button class="date" onclick="applyScene('date')">💗 約會慶生</button>
+    <button class="heavy" onclick="applyScene('heavy')">🔥 重口味聚餐</button>
+  </section>
+
+  <section class="filters">
+    <p class="filter-title">🔍 搜尋餐廳</p>
+    <input
+      id="searchInput"
+      class="search-input"
+      type="search"
+      placeholder="輸入店名或關鍵字，例如：牛排、壽司、豬排、韓式"
+      oninput="render()"
+    >
+
+    <p class="filter-title" style="margin-top:1rem;">🏢 依樓層篩選</p>
+    <div class="chip-group" id="floorFilters">
+      <button class="chip active" data-floor="all">全部樓層</button>
+      <button class="chip" data-floor="1F">1 樓</button>
+      <button class="chip" data-floor="2F">2 樓</button>
+    </div>
+
+    <p class="filter-title" style="margin-top:1rem;">🍜 依料理類型篩選</p>
+    <div class="chip-group" id="typeFilters">
+      <button class="chip active" data-type="all">全部類型</button>
+      <button class="chip" data-type="日式">日式</button>
+      <button class="chip" data-type="西式">西式</button>
+      <button class="chip" data-type="台式">台式</button>
+      <button class="chip" data-type="韓式">韓式</button>
+      <button class="chip" data-type="速食">速食</button>
+      <button class="chip" data-type="點心">點心</button>
+    </div>
+  </section>
+
+  <div class="result-info">
+    <span id="resultCount">共 9 家餐飲店家</span>
+    <button class="clear-btn" onclick="clearFilters()">清除篩選</button>
+  </div>
+
+  <main class="cards" id="cards"></main>
+
+  <div class="empty" id="emptyBox" style="display:none;">
+    <span>🥺</span>
+    <b>目前沒有符合條件的餐廳</b><br>
+    試著切換樓層、料理類型或搜尋關鍵字吧！
+  </div>
+
+  <footer>
+    <b>小提醒：</b>各店家營業時間、菜單、價格、評分、社群帳號與候位狀況可能調整，出發前建議先向店家或商場確認。<br>
+    資料主要整理自新營萬家福（原新營家樂福）健康路 251 號的館內餐飲資訊。
+  </footer>
+</div>
+
+<script>
+const restaurants = [
+  {
+    name:"品田牧場",
+    floor:"1F",
+    type:["日式"],
+    emoji:"🐷",
+    rating:4.4,
+    reviews:"1,200+",
+    short:"日式炸豬排專門店，厚切豬排與定食是主力。",
+    detail:"<b>餐點特色：</b>酥脆金黃麵衣的日式豬排、主廚特調醬汁、白飯與定食組合。<br><b>適合：</b>家庭聚餐、想吃正餐、喜歡日式炸物的人。<br><b>風格：</b>日式時尚簡約、明亮溫暖。<br><b>小提醒：</b>入座後用餐時間為 90 分鐘。",
+    phone:"066565358",
+    map:"品田牧場 台南新營萬家福店",
+    scene:["family"],
+    website:"https://www.pinnada.com.tw/",
+    facebook:"https://www.facebook.com/pinnada.com.tw/",
+    instagram:"https://www.instagram.com/pinnada_tw/"
+  },
+  {
+    name:"Joyfull 台灣珍有福",
+    floor:"1F",
+    type:["日式","西式"],
+    emoji:"🍱",
+    rating:4.7,
+    reviews:"1,500+",
+    short:"日式定食與洋食選擇多，適合家庭與輕鬆聚餐。",
+    detail:"<b>餐點特色：</b>日式炸雞、漢堡排、定食、輕食等，菜色多元且價格親民。<br><b>適合：</b>家庭聚餐、帶小孩、朋友長時間聊天。<br><b>風格：</b>日式家庭餐廳、明亮休閒、舒適實用。<br><b>小提醒：</b>座位較寬敞，適合多人一起用餐。",
+    phone:"066565358",
+    map:"Joyfull 台灣珍有福 台南新營萬家福店",
+    scene:["family"],
+    website:"https://www.joyfull.com.tw/",
+    facebook:"https://www.facebook.com/joyfulltaiwan/",
+    instagram:"https://www.instagram.com/joyfull_taiwan/"
+  },
+  {
+    name:"麥當勞",
+    floor:"1F",
+    type:["速食"],
+    emoji:"🍟",
+    rating:4.2,
+    reviews:"1,000+",
+    short:"漢堡、薯條與飲料，採買前後快速吃一餐很方便。",
+    detail:"<b>餐點特色：</b>漢堡、薯條、飲料、早餐與兒童餐等經典速食。<br><b>適合：</b>趕時間、帶小孩、臨時想吃點東西。<br><b>風格：</b>連鎖速食、現代簡潔、便利取向。<br><b>小提醒：</b>適合快速用餐，不適合長時間聚餐。",
+    phone:"",
+    map:"麥當勞 台南新營萬家福",
+    scene:["fast","family"],
+    website:"https://www.mcdonalds.com.tw/",
+    facebook:"https://www.facebook.com/McDonaldsTaiwan/",
+    instagram:"https://www.instagram.com/mcdonaldstw/"
+  },
+  {
+    name:"武士燒",
+    floor:"1F",
+    type:["點心"],
+    emoji:"🥞",
+    rating:4.5,
+    reviews:"300+",
+    short:"現烤點心小舖，適合逛街時來一份小點心。",
+    detail:"<b>餐點特色：</b>以現烤點心為主，適合採買途中解嘴饞。<br><b>適合：</b>想吃小食、逛街途中、不想吃正餐。<br><b>風格：</b>街頭點心、輕食小舖。<br><b>小提醒：</b>屬於點心型店家，不是正餐餐廳。",
+    phone:"0908886131",
+    map:"武士燒 台南新營萬家福",
+    scene:["fast"],
+    website:"",
+    facebook:"https://www.facebook.com/people/%E6%AD%A6%E5%A3%AB%E7%87%92-%E6%96%B0%E7%87%9F%E5%BA%97/100094222396141/",
+    instagram:""
+  },
+  {
+    name:"TASTy 西堤牛排",
+    floor:"2F",
+    type:["西式"],
+    emoji:"🥩",
+    rating:4.5,
+    reviews:"2,000+",
+    short:"牛排與西式排餐，適合約會、慶生或稍正式聚餐。",
+    detail:"<b>餐點特色：</b>牛排、西式排餐、前菜與套餐型態的用餐體驗。<br><b>適合：</b>約會、慶生、家庭慶祝、較正式聚餐。<br><b>風格：</b>都會休閒西餐廳、明亮舒適、時尚感。<br><b>小提醒：</b>假日用餐時段可能需要候位。",
+    phone:"",
+    map:"TASTy 西堤牛排 新營萬家福店",
+    scene:["date"],
+    website:"https://www.tasty.com.tw/",
+    facebook:"https://www.facebook.com/TASTy.com.tw/",
+    instagram:"https://www.instagram.com/tasty_steak/"
+  },
+  {
+    name:"金春喜韓廚",
+    floor:"2F",
+    type:["韓式"],
+    emoji:"🌶️",
+    rating:4.3,
+    reviews:"500+",
+    short:"韓式湯飯、拌飯與韓式料理，適合想吃重口味或異國料理。",
+    detail:"<b>餐點特色：</b>韓式湯飯、拌飯、韓式小菜與適合多人共享的料理。<br><b>適合：</b>朋友聚餐、想吃異國料理、重口味族群。<br><b>風格：</b>韓式餐廳、熱鬧親民。<br><b>小提醒：</b>實際菜單與辣度請以現場為準。",
+    phone:"",
+    map:"金春喜韓廚 台南新營萬家福",
+    scene:["heavy"],
+    website:"",
+    facebook:"https://www.facebook.com/kimchunhee.korea/",
+    instagram:"https://www.instagram.com/kimchunhee.korea/"
+  },
+  {
+    name:"禾野鐵板燒",
+    floor:"2F",
+    type:["台式","日式"],
+    emoji:"🍳",
+    rating:4.4,
+    reviews:"600+",
+    short:"鐵板燒與熱炒型態，適合多人共享、配飯吃。",
+    detail:"<b>餐點特色：</b>鐵板料理、排餐、海鮮與適合配白飯的菜色；部分餐點可享白飯、湯品續加。<br><b>適合：</b>多人聚餐、想吃熱炒、喜歡重口味。<br><b>風格：</b>台式熱炒／鐵板燒、熱鬧豪邁。<br><b>小提醒：</b>實際菜單、價格與續加規則請以現場為準。",
+    phone:"066569435",
+    map:"禾野鐵板燒 台南新營萬家福",
+    scene:["heavy","family"],
+    website:"",
+    facebook:"https://www.facebook.com/pages/%E7%A6%BE%E9%87%8E%E9%90%B5%E6%9D%BF%E7%87%92%20-%20%E5%AE%B6%E6%A8%82%E7%A6%8F%E6%96%B0%E7%87%9F%E5%BA%97/929415367116911/",
+    instagram:""
+  },
+  {
+    name:"爭鮮迴轉壽司",
+    floor:"2F",
+    type:["日式"],
+    emoji:"🍣",
+    rating:4.3,
+    reviews:"1,500+",
+    short:"迴轉壽司取餐直觀，適合少量多樣與快速用餐。",
+    detail:"<b>餐點特色：</b>迴轉壽司、日式小食與單點壽司。<br><b>適合：</b>想吃少量多樣、帶小孩、快速用餐。<br><b>風格：</b>日式迴轉壽司、輕快明亮。<br><b>小提醒：</b>適合不想吃太飽、想自由挑選的人。",
+    phone:"",
+    map:"爭鮮迴轉壽司 台南新營萬家福",
+    scene:["fast","family"],
+    website:"https://www.sushiexpress.com.tw/",
+    facebook:"https://www.facebook.com/sushiexpress.com.tw/",
+    instagram:"https://www.instagram.com/sushiexpress.tw/"
+  },
+  {
+    name:"三商巧福",
+    floor:"2F",
+    type:["台式"],
+    emoji:"🍜",
+    rating:4.2,
+    reviews:"800+",
+    short:"牛肉麵與台式麵食，想吃熱湯麵的好選擇。",
+    detail:"<b>餐點特色：</b>牛肉麵、麵食與台式家常風味。<br><b>適合：</b>想吃熱湯、麵食、傳統台式口味。<br><b>風格：</b>台式麵館、簡單實在。<br><b>小提醒：</b>適合單人用餐，也很適合想吃飽的聚餐。",
+    phone:"",
+    map:"三商巧福 台南新營萬家福",
+    scene:["family","heavy"],
+    website:"https://www.eefood.com.tw/",
+    facebook:"https://www.facebook.com/eefood1968/",
+    instagram:"https://www.instagram.com/eefood1968/"
+  }
+];
+
+const cards = document.getElementById("cards");
+const emptyBox = document.getElementById("emptyBox");
+const resultCount = document.getElementById("resultCount");
+const fontLabel = document.getElementById("fontLabel");
+
+let activeFloor = "all";
+let activeType = "all";
+let activeScene = "";
+let fontScale = 1;
+
+function makeStars(score){
+  let stars = "";
+
+  for(let i = 1; i <= 5; i++){
+    if(score >= i){
+      stars += "★";
+    }else if(score >= i - 0.5){
+      stars += "⯨";
+    }else{
+      stars += "☆";
+    }
+  }
+
+  return stars;
+}
+
+function makeSocialLinks(r){
+  let links = "";
+
+  if(r.website){
+    links += `
+      <a class="social-link website" href="${r.website}" target="_blank" rel="noopener">
+        🌐 官方網站
+      </a>
+    `;
+  }else{
+    links += `<span class="social-link none">🌐 暫無公開官網</span>`;
+  }
+
+  if(r.facebook){
+    links += `
+      <a class="social-link facebook" href="${r.facebook}" target="_blank" rel="noopener">
+        📘 Facebook
+      </a>
+    `;
+  }else{
+    links += `<span class="social-link none">📘 暫無公開 FB</span>`;
+  }
+
+  if(r.instagram){
+    links += `
+      <a class="social-link instagram" href="${r.instagram}" target="_blank" rel="noopener">
+        📸 Instagram
+      </a>
+    `;
+  }else{
+    links += `<span class="social-link none">📸 暫無公開 IG</span>`;
+  }
+
+  return links;
+}
+
+function makeCard(r){
+  const tags = r.type.map(t=>`<span class="tag">${t}</span>`).join("");
+  const stars = makeStars(r.rating);
+  const socialLinks = makeSocialLinks(r);
+
+  const phoneBtn = r.phone
+    ? `<a class="btn btn-phone" href="tel:${r.phone}">📞 打電話</a>`
+    : `<a class="btn btn-phone" href="#" onclick="alert('此店家電話請以現場公告為準');return false;">📞 電話資訊</a>`;
+
+  return `
+    <article
+      class="card"
+      data-floor="${r.floor}"
+      data-type="${r.type.join(',')}"
+      data-scene="${r.scene.join(',')}"
+      data-search="${r.name} ${r.type.join(' ')} ${r.short} ${r.detail}"
+    >
+      <div class="card-top">
+        <span class="floor">${r.floor}</span>
+        <button
+          class="heart"
+          onclick="toggleSave(this,'${r.name}')"
+          title="加入想吃清單"
+        >🤍</button>
+      </div>
+
+      <h2>${r.emoji} ${r.name}</h2>
+
+      <div class="rating">
+        <span class="stars">${stars}</span>
+        <span>${r.rating.toFixed(1)}</span>
+        <span class="review-count">（${r.reviews} 則評論）</span>
+      </div>
+
+      <div class="tags">${tags}</div>
+      <p class="desc">${r.short}</p>
+
+      <div class="more">
+        <div class="more-box">
+          ${r.detail}
+
+          <p class="social-title">🔗 官方與社群資訊</p>
+          <div class="social-links">
+            ${socialLinks}
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-detail" onclick="toggleCard(this)">📖 看更多</button>
+        <a
+          class="btn btn-map"
+          target="_blank"
+          rel="noopener"
+          href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.map)}"
+        >🗺️ 導航</a>
+        ${phoneBtn}
+      </div>
+    </article>
+  `;
+}
+
+cards.innerHTML = restaurants.map(makeCard).join("");
+
+function render(){
+  const keyword = document
+    .getElementById("searchInput")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const all = [...cards.children];
+  let visible = 0;
+
+  all.forEach(card=>{
+    const floor = card.dataset.floor;
+    const types = card.dataset.type.split(",");
+    const scenes = card.dataset.scene.split(",");
+    const searchable = card.dataset.search.toLowerCase();
+
+    const showFloor = activeFloor === "all" || floor === activeFloor;
+    const showType = activeType === "all" || types.includes(activeType);
+    const showScene = !activeScene || scenes.includes(activeScene);
+    const showKeyword = !keyword || searchable.includes(keyword);
+
+    const show = showFloor && showType && showScene && showKeyword;
+
+    card.style.display = show ? "" : "none";
+
+    if(show){
+      visible++;
+    }
+  });
+
+  resultCount.textContent = `符合條件：${visible} 家`;
+  emptyBox.style.display = visible ? "none" : "";
+}
+
+document.querySelectorAll("#floorFilters .chip").forEach(btn=>{
+  btn.onclick = ()=>{
+    document
+      .querySelectorAll("#floorFilters .chip")
+      .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+    activeFloor = btn.dataset.floor;
+    render();
+  };
+});
+
+document.querySelectorAll("#typeFilters .chip").forEach(btn=>{
+  btn.onclick = ()=>{
+    document
+      .querySelectorAll("#typeFilters .chip")
+      .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+    activeType = btn.dataset.type;
+    render();
+  };
+});
+
+function applyScene(scene){
+  activeScene = activeScene === scene ? "" : scene;
+  render();
+}
+
+function clearFilters(){
+  activeFloor = "all";
+  activeType = "all";
+  activeScene = "";
+
+  document.getElementById("searchInput").value = "";
+
+  document.querySelectorAll(".chip").forEach(b=>b.classList.remove("active"));
+  document
+    .querySelector('#floorFilters .chip[data-floor="all"]')
+    .classList.add("active");
+
+  document
+    .querySelector('#typeFilters .chip[data-type="all"]')
+    .classList.add("active");
+
+  render();
+}
+
+function toggleCard(btn){
+  const card = btn.closest(".card");
+  card.classList.toggle("open");
+
+  btn.textContent = card.classList.contains("open")
+    ? "🔼 收起說明"
+    : "📖 看更多";
+}
+
+function toggleSave(btn,name){
+  btn.classList.toggle("saved");
+  btn.textContent = btn.classList.contains("saved") ? "❤️" : "🤍";
+
+  const saved = JSON.parse(
+    localStorage.getItem("wanjiafuSaved") || "[]"
+  );
+
+  if(btn.classList.contains("saved")){
+    if(!saved.includes(name)){
+      saved.push(name);
+    }
+  }else{
+    const index = saved.indexOf(name);
+
+    if(index > -1){
+      saved.splice(index,1);
+    }
+  }
+
+  localStorage.setItem("wanjiafuSaved", JSON.stringify(saved));
+}
+
+function updateFontDisplay(){
+  fontLabel.textContent = `字體大小：${Math.round(fontScale * 100)}%`;
+}
+
+function changeFont(step){
+  fontScale = Math.min(1.5, Math.max(0.8, fontScale + step));
+
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    fontScale
+  );
+
+  localStorage.setItem("wanjiafuFontScale", fontScale);
+  updateFontDisplay();
+}
+
+function resetFont(){
+  fontScale = 1;
+
+  document.documentElement.style.setProperty(
+    "--font-scale",
+    fontScale
+  );
+
+  localStorage.setItem("wanjiafuFontScale", fontScale);
+  updateFontDisplay();
+}
+
+(function restoreFont(){
+  const savedFont = parseFloat(
+    localStorage.getItem("wanjiafuFontScale")
+  );
+
+  if(!isNaN(savedFont)){
+    fontScale = Math.min(1.5, Math.max(0.8, savedFont));
+
+    document.documentElement.style.setProperty(
+      "--font-scale",
+      fontScale
+    );
+  }
+
+  updateFontDisplay();
+})();
+
+(function restoreSaved(){
+  const saved = JSON.parse(
+    localStorage.getItem("wanjiafuSaved") || "[]"
+  );
+
+  document.querySelectorAll(".card").forEach(card=>{
+    const name = card
+      .querySelector("h2")
+      .textContent
+      .replace(/^[^\s]+\s/,"");
+
+    if(saved.includes(name)){
+      const heart = card.querySelector(".heart");
+      heart.classList.add("saved");
+      heart.textContent = "❤️";
+    }
+  });
+})();
+
+render();
+</script>
+</body>
+</html>
